@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registro Médico - VitaQR</title>
+  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="registro.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- Menú actualizado -->
+  <header>
+    <div class="logo">VitaQR</div>
+    <nav>
+      <ul class="menu">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="productos.html">Productos</a></li>
+        <li>
+          <a href="carrito.html" title="Carrito">
+            <i class="fas fa-shopping-cart"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#" id="abrirSesion" title="Iniciar sesión">
+            <i class="fas fa-user"></i>
+          </a>
+        </li>
+        <li><a href="preguntas-frecuentes.html">Preguntas Frecuentes</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Formulario de registro -->
+  <main class="registro-container">
+    <h1>Registro de Información Médica</h1>
+    
+    <form id="registro-form">
+      <!-- Datos Personales -->
+      <fieldset>
+        <legend>Datos Personales</legend>
+        <label>Nombres: <input type="text" name="nombres" required></label>
+        <label>Apellidos: <input type="text" name="apellidos" required></label>
+        <label>DNI: <input type="text" name="dni" required></label>
+        <label>Edad: <input type="number" name="edad" required></label>
+        <label>Sexo:
+          <select name="sexo" required>
+            <option value="">Selecciona</option>
+            <option>Femenino</option>
+            <option>Masculino</option>
+            <option>Otro</option>
+          </select>
+        </label>
+        <label>Estado Civil: <input type="text" name="estado_civil" required></label>
+        <label>Religión: <input type="text" name="religion" required></label>
+        <label>Tipo de Sangre: <input type="text" name="sangre" required></label>
+        <label>Fecha de Nacimiento: <input type="date" name="nacimiento" required></label>
+      </fieldset>
+
+      <!-- Contacto Emergencia -->
+      <fieldset>
+        <legend>Contacto de Emergencia</legend>
+        <label>Nombre del Contacto: <input type="text" name="nombre_contacto" required></label>
+        <label>Teléfono de Contacto: <input type="tel" name="telefono_contacto" required></label>
+      </fieldset>
+
+      <!-- Info Médica -->
+      <fieldset>
+        <legend>Información Médica General</legend>
+        <label>Peso (kg): <input type="number" name="peso" required></label>
+        <label>Altura (cm): <input type="number" name="altura" required></label>
+        <label>Alergias: <input type="text" name="alergias" required></label>
+        <label>Condiciones: <input type="text" name="condiciones" required></label>
+        <label>Cirugías: <input type="text" name="cirugias" required></label>
+        <label>Vacunas: <input type="text" name="vacunas" required></label>
+        <label>Seguro: <input type="text" name="seguro" required></label>
+        <label>Clínica: <input type="text" name="clinica" required></label>
+      </fieldset>
+
+      <!-- Medicamentos -->
+      <fieldset>
+        <legend>Medicamentos</legend>
+        <label>Medicamentos Continuos: <input type="text" name="med_continuos" required></label>
+        <label>Medicamentos Emergencia: <input type="text" name="med_emergencia" required></label>
+      </fieldset>
+
+      <!-- Historial Familiar -->
+      <fieldset>
+        <legend>Historial Familiar</legend>
+        <label>Antecedentes de Alergia: <input type="text" name="antecedentes_alergia" required></label>
+        <label>Enfermedades Hereditarias: <input type="text" name="enfermedades_hereditarias" required></label>
+      </fieldset>
+
+      <!-- Estilo de Vida -->
+      <fieldset>
+        <legend>Estilo de Vida</legend>
+        <label>¿Fuma?
+          <select name="fuma" required>
+            <option value="">Selecciona</option>
+            <option>sí</option>
+            <option>no</option>
+          </select>
+        </label>
+        <label>¿Bebe?
+          <select name="bebe" required>
+            <option value="">Selecciona</option>
+            <option>sí</option>
+            <option>no</option>
+          </select>
+        </label>
+      </fieldset>
+
+      <!-- Diagnóstico PDF -->
+      <fieldset>
+        <legend>Diagnóstico Médico</legend>
+        <label>Adjuntar diagnóstico (PDF): 
+          <input type="file" name="diagnostico_pdf" accept="application/pdf" required>
+        </label>
+      </fieldset>
+
+      <button type="submit" class="btn">Enviar Registro</button>
+    </form>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <p>© 2025 VitaQR - Proyecto Académico</p>
+      <a href="terminos-condiciones.html">Términos y Condiciones</a>
+    </div>
+  </footer>
+
+  <!-- Modal de sesión -->
+  <div id="modalSesion" class="modal hidden">
+    <div class="modal-content">
+      <h2>Inicia sesión para registrarte</h2>
+      <form>
+        <label>Email: <input type="email" required></label>
+        <label>Contraseña: <input type="password" required></label>
+        <button type="submit" class="btn">Iniciar Sesión</button>
+      </form>
+      <p>O inicia sesión con:</p>
+      <button class="gmail-btn">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png" alt="Gmail" width="20"> Gmail
+      </button>
+    </div>
+  </div>
+
+  <!-- JS para guardar datos y redirigir -->
+  <script>
+    let sesionIniciada = true; // Simulación de sesión iniciada
+
+    document.getElementById('registro-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      if (!sesionIniciada) {
+        document.getElementById("modalSesion").classList.remove("hidden");
+        return;
+      }
+
+      const form = e.target;
+      const nombres = form.nombres.value;
+      const apellidos = form.apellidos.value;
+      const dni = form.dni.value;
+
+      // Guardar en localStorage
+      localStorage.setItem("usuario_nombres", nombres);
+      localStorage.setItem("usuario_apellidos", apellidos);
+      localStorage.setItem("usuario_dni", dni);
+
+      // Redirigir al perfil
+      window.location.href = "perfil.html";
+    });
+  </script>
+
+</body>
+</html>

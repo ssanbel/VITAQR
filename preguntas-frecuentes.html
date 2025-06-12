@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Preguntas Frecuentes - VitaQR</title>
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .faq-section {
+      padding: 60px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .faq-title {
+      font-size: 2em;
+      color: #284667;
+      text-align: center;
+      margin-bottom: 40px;
+      font-weight: bold;
+    }
+
+    .faq-group {
+      margin-bottom: 40px;
+    }
+
+    .faq-group h2 {
+      color: #AA443F;
+      margin-bottom: 15px;
+      font-size: 1.4em;
+      border-bottom: 2px solid #AA443F;
+      padding-bottom: 5px;
+    }
+
+    .faq-item {
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      background-color: #f9f9f9;
+      padding: 15px 20px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #284667;
+    }
+
+    .faq-answer {
+      display: none;
+      padding: 15px 20px;
+      background-color: #ffffff;
+      color: #000;
+      line-height: 1.5;
+    }
+
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Modal de inicio de sesión -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Inicia sesión</h2>
+    <form id="loginForm">
+      <label for="email">Correo electrónico:</label>
+      <input type="email" id="email" required>
+      <label for="password">Contraseña:</label>
+      <input type="password" id="password" required>
+      <button type="submit" class="btn">Iniciar sesión</button>
+    </form>
+    <hr>
+    <button id="gmailLogin" class="btn gmail-btn">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png" alt="Gmail" width="20" style="vertical-align: middle; margin-right: 8px;">
+      Iniciar sesión con Gmail
+    </button>
+  </div>
+</div>
+
+<!-- Menú general -->
+<header>
+  <div class="logo">VitaQR</div>
+  <ul class="menu">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="productos.html">Productos</a></li>
+    <li>
+      <a href="carrito.html" title="Carrito">
+        <i class="fas fa-shopping-cart"></i>
+      </a>
+    </li>
+    <li>
+      <a href="#" id="abrirSesion" title="Iniciar sesión">
+        <i class="fas fa-user"></i>
+      </a>
+    </li>
+    <li><a href="preguntas-frecuentes.html" class="active">Preguntas Frecuentes</a></li>
+  </ul>
+</header>
+
+<section class="faq-section">
+  <h1 class="faq-title">Preguntas Frecuentes</h1>
+
+  <div class="faq-group">
+    <h2>SOBRE VITAQR</h2>
+
+    <div class="faq-item">
+      <div class="faq-question">¿Qué es VITAQR?</div>
+      <div class="faq-answer">VITAQR es una herramienta de asistencia médica personalizada que utiliza un código QR para brindar acceso inmediato a información médica esencial en situaciones de emergencia, permitiendo a los profesionales de salud actuar con rapidez y precisión.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">¿Cómo funciona VITAQR?</div>
+      <div class="faq-answer">Al escanear el código QR con un teléfono inteligente, se accede a un perfil médico digital donde se muestran datos relevantes como: alergias, enfermedades crónicas, grupo sanguíneo, medicamentos actuales, contactos de emergencia, etc.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">¿Qué información puedo incluir en mi perfil VITAQR?</div>
+      <div class="faq-answer">Puedes incluir:<br>
+        • Nombre completo<br>
+        • Alergias<br>
+        • Condiciones médicas preexistentes<br>
+        • Medicación actual<br>
+        • Grupo sanguíneo<br>
+        • Contacto(s) de emergencia<br>
+        • Indicaciones especiales para atención
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">¿Necesito conexión a internet para acceder a mi perfil médico?</div>
+      <div class="faq-answer">Sí, se requiere una conexión a internet para acceder al perfil completo a través del código QR. Sin embargo, se puede mostrar una versión resumida con los datos más críticos incluso con baja conectividad.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">¿VITAQR funciona en cualquier país?</div>
+      <div class="faq-answer">Sí, mientras haya acceso a internet y un lector de códigos QR, tu información será accesible desde cualquier lugar del mundo.</div>
+    </div>
+  </div>
+
+  <div class="faq-group">
+    <h2>SOBRE MI INFORMACIÓN</h2>
+
+    <div class="faq-item">
+      <div class="faq-question">¿Quién puede ver mi información médica?</div>
+      <div class="faq-answer">Solo las personas que escaneen tu código QR tendrán acceso a tu perfil médico. La información está protegida y diseñada para ser útil únicamente en situaciones de emergencia.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">¿Es seguro usar VITAQR?</div>
+      <div class="faq-answer">Sí. VITAQR utiliza protocolos de seguridad para proteger tu información. Además, tú decides qué datos compartir y puedes actualizar tu perfil en cualquier momento.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">¿Dónde puedo llevar mi código VITAQR?</div>
+      <div class="faq-answer">Puedes llevarlo en una pulsera, llavero, adhesivo en el teléfono, o cualquier otro accesorio visible para que los rescatistas lo encuentren fácilmente en caso de emergencia.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">¿Puedo actualizar mi información médica?</div>
+      <div class="faq-answer">Sí. Puedes entrar a tu cuenta en cualquier momento para modificar, agregar o eliminar datos médicos según tu necesidad.</div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-content">
+    <p>© 2025 VitaQR - Proyecto Académico</p>
+    <a href="terminos-condiciones.html">Términos y Condiciones</a>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.faq-question').forEach(item => {
+    item.addEventListener('click', () => {
+      item.parentElement.classList.toggle('active');
+    });
+  });
+
+  const modal = document.getElementById("loginModal");
+  const closeBtn = document.querySelector(".close");
+  const loginForm = document.getElementById("loginForm");
+  const gmailBtn = document.getElementById("gmailLogin");
+  const abrirSesion = document.getElementById("abrirSesion");
+
+  abrirSesion.onclick = () => {
+    modal.style.display = "block";
+  };
+
+  closeBtn.onclick = () => {
+    modal.style.display = "none";
+  };
+
+  window.onclick = (e) => {
+    if (e.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+
+  loginForm.onsubmit = (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    if (email && password) {
+      localStorage.setItem("usuarioLogueado", email);
+      modal.style.display = "none";
+    } else {
+      alert("Por favor, completa todos los campos.");
+    }
+  };
+
+  gmailBtn.onclick = () => {
+    localStorage.setItem("usuarioLogueado", "gmail_user@gmail.com");
+    modal.style.display = "none";
+  };
+</script>
+
+</body>
+</html>

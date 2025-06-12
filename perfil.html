@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi Perfil - VitaQR</title>
+  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body {
+      font-family: Helvetica, sans-serif;
+      background-color: #edeee9;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #284667;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    .menu {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .menu li a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .profile-container {
+      max-width: 600px;
+      margin: 60px auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .profile-container h2 {
+      color: #284667;
+      margin-bottom: 20px;
+    }
+
+    .profile-data p {
+      font-size: 1.1em;
+      margin: 10px 0;
+    }
+
+    .profile-actions button {
+      margin: 10px 5px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      background-color: #AA443F;
+      color: white;
+      cursor: pointer;
+      font-size: 0.9em;
+    }
+
+    .profile-actions button:hover {
+      background-color: #902E30;
+    }
+
+    footer {
+      background-color: #284667;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 60px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">VitaQR</div>
+  <ul class="menu">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="productos.html">Productos</a></li>
+    <li><a href="carrito.html"><i class="fas fa-shopping-cart"></i></a></li>
+    <li id="userInfoMenu" style="display: none;">
+      <span id="nombreUsuario" style="margin-right: 10px;"></span>
+      <a href="#" id="cerrarSesion" title="Cerrar sesión">
+        <i class="fas fa-sign-out-alt"></i>
+      </a>
+    </li>
+  </ul>
+</header>
+
+<main class="profile-container">
+  <h2>Mi Perfil</h2>
+  <div class="profile-data">
+    <p><strong>Nombres:</strong> <span id="nombresUsuario">---</span></p>
+    <p><strong>Apellidos:</strong> <span id="apellidosUsuario">---</span></p>
+    <p><strong>DNI:</strong> <span id="dniUsuario">---</span></p>
+  </div>
+
+  <div class="profile-actions">
+    <button onclick="alert('Función QR aún no implementada')">Generar código QR</button>
+    <button onclick="window.location.href='registro.html'">Editar formulario</button>
+    <button onclick="cerrarSesion()">Cerrar sesión</button>
+  </div>
+</main>
+
+<footer>
+  <p>© 2025 VitaQR - Proyecto Académico</p>
+</footer>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const nombreUsuario = localStorage.getItem("usuarioNombre") || "Usuario";
+    const apellidosUsuario = localStorage.getItem("usuarioApellido") || "Apellido";
+    const dniUsuario = localStorage.getItem("usuarioDNI") || "--------";
+    const correo = localStorage.getItem("usuarioLogueado");
+
+    // Mostrar nombre en el menú
+    const userInfoMenu = document.getElementById("userInfoMenu");
+    const nombreMenu = document.getElementById("nombreUsuario");
+
+    if (correo) {
+      userInfoMenu.style.display = "flex";
+      nombreMenu.textContent = nombreUsuario;
+    }
+
+    // Mostrar datos
+    document.getElementById("nombresUsuario").textContent = nombreUsuario;
+    document.getElementById("apellidosUsuario").textContent = apellidosUsuario;
+    document.getElementById("dniUsuario").textContent = dniUsuario;
+  });
+
+  function cerrarSesion() {
+    localStorage.removeItem("usuarioLogueado");
+    localStorage.removeItem("usuarioNombre");
+    localStorage.removeItem("usuarioApellido");
+    localStorage.removeItem("usuarioDNI");
+    window.location.href = "index.html";
+  }
+</script>
+
+<script src="perfil.js"></script>
+
+</body>
+</html>
