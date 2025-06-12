@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Productos - VidaQR</title>
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="productos.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- Modal de inicio de sesión -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Inicia sesión</h2>
+    <form id="loginForm">
+      <label for="email">Correo electrónico:</label>
+      <input type="email" id="email" required>
+      <label for="password">Contraseña:</label>
+      <input type="password" id="password" required>
+      <button type="submit" class="btn">Iniciar sesión</button>
+    </form>
+    <hr>
+    <button id="gmailLogin" class="btn gmail-btn">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png" alt="Gmail" width="20" style="vertical-align: middle; margin-right: 8px;">
+      Iniciar sesión con Gmail
+    </button>
+  </div>
+</div>
+
+<!-- Menú general -->
+<header>
+  <div class="logo">VidaQR</div>
+  <ul class="menu">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="productos.html" class="active">Productos</a></li>
+    <li>
+      <a href="carrito.html" title="Carrito">
+        <i class="fas fa-shopping-cart"></i>
+      </a>
+    </li>
+    <li>
+      <a href="#" id="abrirSesion" title="Iniciar sesión">
+        <i class="fas fa-user"></i>
+      </a>
+    </li>
+    <li><a href="preguntas-frecuentes.html">Preguntas Frecuentes</a></li>
+  </ul>
+</header>
+
+<main class="productos-container">
+  <h1>Nuestros Productos</h1>
+  <div class="productos-grid">
+
+    <!-- Producto 1 -->
+    <div class="producto" onclick="mostrarDetalle('producto1')">
+      <img src="img/collar.jpeg" alt="Sticker QR">
+      <div class="overlay">Sticker con QR</div>
+      <div class="acciones">
+        <button class="btn-agregar" onclick="event.stopPropagation(); agregarDesdeCuadricula('producto1')">Agregar al carrito</button>
+      </div>
+    </div>
+
+    <!-- Producto 2 -->
+    <div class="producto" onclick="mostrarDetalle('producto2')">
+      <img src="img/case.jpeg" alt="Case QR">
+      <div class="overlay">Case con QR</div>
+      <div class="acciones">
+        <button class="btn-agregar" onclick="event.stopPropagation(); agregarDesdeCuadricula('producto2')">Agregar al carrito</button>
+      </div>
+    </div>
+
+    <!-- Producto 3 -->
+    <div class="producto" onclick="mostrarDetalle('producto3')">
+      <img src="img/stickers.jpeg" alt="Collar QR">
+      <div class="overlay">Collar con QR</div>
+      <div class="acciones">
+        <button class="btn-agregar" onclick="event.stopPropagation(); agregarDesdeCuadricula('producto3')">Agregar al carrito</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Detalle del producto -->
+  <section id="detalle-producto" class="detalle hidden">
+    <button onclick="cerrarDetalle()" class="cerrar-detalle">X</button>
+    <div id="detalle-contenido"></div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-content">
+    <p>© 2025 VidaQR - Proyecto Académico</p>
+    <a href="terminos-condiciones.html">Términos y Condiciones</a>
+  </div>
+</footer>
+
+<script src="productos.js"></script>
+
+<!-- Script de inicio de sesión (reutilizable) -->
+<script>
+  const modal = document.getElementById("loginModal");
+  const closeBtn = document.querySelector(".close");
+  const loginForm = document.getElementById("loginForm");
+  const gmailBtn = document.getElementById("gmailLogin");
+  const abrirSesion = document.getElementById("abrirSesion");
+
+  abrirSesion.onclick = () => {
+    modal.style.display = "block";
+  };
+
+  closeBtn.onclick = () => {
+    modal.style.display = "none";
+  };
+
+  window.onclick = (e) => {
+    if (e.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+
+  loginForm.onsubmit = (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    if (email && password) {
+      localStorage.setItem("usuarioLogueado", email);
+      modal.style.display = "none";
+    } else {
+      alert("Por favor, completa todos los campos.");
+    }
+  };
+
+  gmailBtn.onclick = () => {
+    localStorage.setItem("usuarioLogueado", "gmail_user@gmail.com");
+    modal.style.display = "none";
+  };
+</script>
+
+</body>
+</html>
