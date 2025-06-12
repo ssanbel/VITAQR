@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalle del producto</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      margin: 0;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 60px;
+    }
+    .image-section img {
+      max-width: 360px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .info-section {
+      max-width: 400px;
+    }
+    .info-section h2 {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+    .price {
+      font-size: 22px;
+      color: #e91e63;
+      margin: 10px 0;
+    }
+    .info-section input[type="number"],
+    .info-section input[type="email"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    .info-section button {
+      width: 100%;
+      padding: 12px;
+      background-color: black;
+      color: white;
+      font-size: 16px;
+      border: none;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .info-section button.secondary {
+      background-color: #e74c3c;
+    }
+    .info-section a {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #555;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    .modal-content h3 {
+      margin-top: 0;
+    }
+    .modal-content input[type="email"] {
+      width: 94%;
+      padding: 10px;
+      margin: 15px 0;
+      font-size: 16px;
+    }
+    .modal-content button {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #1e88e5;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .close {
+      float: right;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .quantity-wrapper {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 8px;
+    }
+    .quantity-wrapper input[type="number"] {
+      width: 60px;
+      height: 32px;
+      padding: 6px;
+      margin: 0;
+      text-align: center;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+      box-sizing: border-box;
+    }
+    .qty-btn {
+      font-size: 18px;
+      width: 32px;
+      height: 32px;
+      border: 1px solid #ccc;
+      background-color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+    }
+
+    .color-selector {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .color-circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 8px;
+      cursor: pointer;
+      border: 2px solid #ccc;
+      box-sizing: border-box;
+    }
+    .color-circle[data-color="black"]  { background: #000; }
+    .color-circle[data-color="white"]  { background: #fff; border: 1px solid #ccc; }
+    .color-circle[data-color="red"]    { background: #e13825; }
+    .color-circle[data-color="gold"]   { background: #FFD700; }
+    .color-circle[data-color="silver"] { background: #C0C0C0; }
+    .color-circle.selected {
+      border-color: #e91e63;
+    }
+
+    .shape-circle, .shape-square {
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+      border: 2px solid #ccc;
+      margin-right: 8px;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+    .shape-circle { border-radius: 50%; }
+    .shape-square { border-radius: 4px; }
+    .shape-circle.selected,
+    .shape-square.selected {
+      border-color: #e91e63;
+    }
+
+    @media screen and (max-width: 768px) {
+    #modalAgregado .modal-content,
+    #modalCorreo .modal-content {
+      margin-top: 40%;
+      width: 90%;
+      font-size: 18px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    #modalAgregado .modal-content p {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    #modalAgregado .modal-content button,
+    #modalCorreo .modal-content button {
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      width: 100%;
+    }
+
+    #modalCorreo input[type="email"] {
+      font-size: 16px;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .modal-content .close {
+      font-size: 28px;
+    }
+    .container {
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .image-section img {
+      max-width: 100%;
+    }
+
+    .info-section {
+      max-width: 100%;
+      padding: 0 10px;
+    }
+
+    .info-section button {
+      font-size: 16px;
+      padding: 10px;
+    }
+
+    .color-selector {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .quantity-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .quantity-wrapper input[type="number"] {
+      width: 60px;
+      text-align: center;
+      line-height: 36px;
+      vertical-align: middle;
+      font-size: 18px;
+    }
+
+    .qty-btn {
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+    }
+
+    .modal-content {
+      width: 95%;
+      margin-top: 30%;
+    }
+  }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="image-section">
+      <img id="img" src="" alt="Imagen del producto" />
+    </div>
+    <div class="info-section">
+      <h2 id="nombre"></h2>
+      <p class="price" id="precio"></p>
+      <div id="color-selector" class="color-selector"></div>
+      <div id="cantidad-container" style="margin:10px 0;"></div>
+
+      <button id="btnComprar" onclick="verificarSesionAntesDeComprar()" class="comprar-btn">
+        Comprar ahora</button>
+      <button id="btnAgregar" onclick="verificarSesionAntesDeAgregar()" class="carrito-btn">
+        Agregar al carrito</button>
+      <button id="btnAvisar" class="secondary" onclick="abrirModal()">
+        Avisarme cuando haya stock</button>
+
+      <a href="{{ url_for('index') }}#productos">← Volver a productos</a>
+    </div>
+  </div>
+
+
+  <!-- Modal de advertencia -->
+  <div id="modalAdvertencia" style="display: none;">
+    <div style="
+      position: fixed;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: white;
+      color: black;
+      padding: 20px 30px;
+      border: 2px solid #000000;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      z-index: 3000;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      min-width: 300px;
+    ">
+      <p id="mensajeAdvertencia" style="margin-bottom: 20px; font-weight: bold;">Mensaje de advertencia</p>
+      <button onclick="cerrarAdvertencia()" style="
+        padding: 10px 20px;
+        background-color: #000000;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+      ">Aceptar</button>
+    </div>
+  </div>
+
+
+  <!-- Modal de notificación por correo -->
+  <div id="modalCorreo" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="cerrarModal()">×</span>
+      <h3>Notificarme por correo</h3>
+      <input type="email" id="correoStock" placeholder="Tu correo electrónico" />
+      <button onclick="enviarNotificacion()">Enviar</button>
+    </div>
+  </div>
+
+  <div id="modalAgregado" class="modal">
+    <div class="modal-content">
+      <p>Producto agregado</p>
+      <button onclick="cerrarModalAgregado()">Cerrar</button>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = parseInt(params.get("id"));
+
+    const productos = [
+      {
+        id: 1,
+        nombre: "VitaQR Tag",
+        precio: 19.90,
+        stock: 5,
+        images: {
+          gold:   "{{ url_for('static', filename='img/TagVitaQR_Dorado.jpg') }}",
+          silver: "{{ url_for('static', filename='img/TagVitaQR_Plateado.jpg') }}"
+        }
+      },
+      {
+        id: 2,
+        nombre: "VitaQR Pulse - Silicona",
+        precio: 12.90,
+        stock: 3,
+        images: {
+          black: "{{ url_for('static', filename='img/PulseraVitaQR_Negro.jpg') }}",
+          white: "{{ url_for('static', filename='img/PulseraVitaQR_Blanco.jpg') }}",
+          red:   "{{ url_for('static', filename='img/PulseraVitaQR_Rojo.jpg') }}"
+        }
+      },
+      {
+        id: 3,
+        nombre: "VitaQR Stick+",
+        precio: 9.90,
+        stock: 0,
+        images: {
+          black: "{{ url_for('static', filename='img/StickerVitaQR2.jpg') }}",
+          white: "{{ url_for('static', filename='img/StickerVitaQR1.jpg') }}"
+        }
+      },
+      {
+        id: 4,
+        nombre: "VitaQR Case+ - Silicona",
+        precio: 29.90,
+        stock: 2,
+        images: {
+          black: "{{ url_for('static', filename='img/CaseVitaQR_Negro.jpg') }}",
+          white: "{{ url_for('static', filename='img/CaseVitaQR_Blanco.jpg') }}",
+          red:   "{{ url_for('static', filename='img/CaseVitaQR_Rojo.jpg') }}"
+        }
+      }
+    ];
+
+    const producto = productos.find(p => p.id === id);
+
+    if (!producto) {
+      document.body.innerHTML = "<h2>Producto no encontrado</h2>";
+    } else {
+      const nombreElem = document.getElementById("nombre");
+      const precioElem = document.getElementById("precio");
+      const imgElem    = document.getElementById("img");
+      const colorContainer = document.getElementById("color-selector");
+      const titleMap = {
+        black:  "Negro",
+        white:  "Blanco",
+        red:    "Rojo",
+        gold:   "Dorado",
+        silver: "Plateado"
+      };
+
+      const baseName = producto.nombre;
+      precioElem.textContent = `S/. ${producto.precio.toFixed(2)}`;
+
+      function updateNameDisplay(sub) {
+        nombreElem.textContent = `${baseName} (${sub})`;
+      }
+
+      colorContainer.innerHTML = "";
+
+      if (producto.id === 3) {
+        const keys = Object.keys(producto.images);
+        ["circle","square"].forEach((shape, i) => {
+          const span = document.createElement("span");
+          span.classList.add(`shape-${shape}`);
+          span.dataset.shape = shape;
+          span.title = shape === "circle" ? "Círculo" : "Cuadrado";
+          if (i === 0) span.classList.add("selected");
+          span.addEventListener("click", () => {
+            colorContainer.querySelectorAll("span").forEach(s=>s.classList.remove("selected"));
+            span.classList.add("selected");
+            
+            imgElem.src = producto.images[keys[i]];
+            updateNameDisplay(span.title);
+          });
+          colorContainer.appendChild(span);
+        });
+        imgElem.src = producto.images[keys[0]];
+        updateNameDisplay(colorContainer.querySelector("span.selected").title);
+      } else {
+        const colors = Object.keys(producto.images);
+        colors.forEach((c, i) => {
+          const span = document.createElement("span");
+          span.classList.add("color-circle");
+          span.dataset.color = c;
+          span.title = titleMap[c] || c;
+          if (i === 0) span.classList.add("selected");
+          span.addEventListener("click", () => {
+            colorContainer.querySelectorAll(".color-circle").forEach(s=>s.classList.remove("selected"));
+            span.classList.add("selected");
+            imgElem.src = producto.images[c];
+            updateNameDisplay(span.title);
+          });
+          colorContainer.appendChild(span);
+        });
+        imgElem.src = producto.images[colors[0]];
+        updateNameDisplay(colorContainer.querySelector("span.selected").title);
+      }
+
+      const btnAgregar   = document.getElementById("btnAgregar");
+      const btnComprar   = document.getElementById("btnComprar");
+      const btnAvisar    = document.getElementById("btnAvisar");
+      const contCantidad = document.getElementById("cantidad-container");
+
+      if (producto.stock > 0) {
+        contCantidad.innerHTML = `
+          <label for="quantity">Cantidad:</label><br/>
+          <div class="quantity-wrapper">
+            <button type="button" class="qty-btn" onclick="cambiarCantidad(-1)">−</button>
+            <input type="number" id="quantity" value="0" min="0" readonly/>
+            <button type="button" class="qty-btn" onclick="cambiarCantidad(1)">+</button>
+          </div>`;
+        btnAgregar.disabled = false;
+        btnAgregar.style.opacity = "1";
+        btnAgregar.style.cursor  = "pointer";
+        btnComprar.disabled = false;
+        btnComprar.style.opacity = "1";
+        btnComprar.style.cursor  = "pointer";
+        btnAvisar.disabled = true;
+        btnAvisar.style.opacity = "0.5";
+        btnAvisar.style.cursor  = "not-allowed";
+      } else {
+        contCantidad.innerHTML = `
+          <label>Cantidad:</label><br/>
+          <input type="text" value="Sin stock" disabled
+            style="margin-top:8px;width:96%;color:black;
+                   font-weight:bold;text-align:center;
+                   background:none;border:1px solid #ccc;
+                   padding:6px;"/>`;
+        btnAgregar.disabled = true;
+        btnAgregar.style.opacity = "0.5";
+        btnAgregar.style.cursor  = "not-allowed";
+        btnComprar.disabled = true;
+        btnComprar.style.opacity = "0.5";
+        btnComprar.style.cursor  = "not-allowed";
+        btnAvisar.disabled = false;
+        btnAvisar.style.opacity = "1";
+        btnAvisar.style.cursor  = "pointer";
+      }
+    }
+
+    // VERIFICACIÓN DE SESIÓN
+    function verificarSesionAntesDeComprar(accion) {
+      fetch('/usuario_actual')
+        .then(r => r.json())
+        .then(data => {
+          if (data.nombre) {
+            ComprarProducto();
+          } else {
+            mostrarAdvertencia("Debes iniciar sesión para comprar.");
+          }
+        });
+    }
+
+    function verificarSesionAntesDeAgregar() {
+      fetch('/usuario_actual')
+        .then(r => r.json())
+        .then(data => {
+          if (data.nombre) {
+            agregarProducto();
+          } else {
+            mostrarAdvertencia("Debes iniciar sesión para agregar productos al carrito.");
+          }
+       });
+    }
+
+    // COMPRAR EN CARRITO
+    function ComprarProducto() {
+      const cantidad = parseInt(document.getElementById("quantity")?.value || 0);
+      if (!cantidad || isNaN(cantidad) > producto.stock) {
+        return mostrarAdvertencia("Por favor, selecciona una cantidad válida.");
+      }
+      if (cantidad > producto.stock) {
+        return mostrarAdvertencia(`Solo hay ${producto.stock} unidades disponibles.`);
+      }
+      const colorSeleccionado = document.querySelector("#color-selector .selected")?.title;
+      const nombrecompleto = `${producto.nombre} (${colorSeleccionado})`;
+
+      agregarAlCarrito({
+        id: producto.id,
+        nombre: nombrecompleto,
+        precio: producto.precio,
+        cantidad,
+        color: colorSeleccionado,
+        imagen: document.getElementById("img").src,
+        stock: producto.stock
+      });
+      window.location.href = "/carrito";
+    }
+    function abrirModal() {
+      document.getElementById("correoStock").value = "";
+      document.getElementById("modalCorreo").style.display = "block";
+    }
+    function cerrarModal() {
+      document.getElementById("modalCorreo").style.display = "none";
+    }
+    function enviarNotificacion() {
+      const correo = document.getElementById("correoStock").value;
+      if (correo && correo.includes("@")) {
+        mostrarAdvertencia(`Te notificaremos a ${correo} cuando haya stock.`);
+        cerrarModal();
+      } else {
+        mostrarAdvertencia("Por favor ingresa un correo válido.");
+      }
+    }
+    window.onclick = evt => {
+      if (evt.target === document.getElementById("modalCorreo")) cerrarModal();
+    };
+    function cambiarCantidad(delta) {
+      const inp = document.getElementById("quantity");
+      let v = parseInt(inp.value)||0;
+      v = Math.max(0, v+delta);
+      inp.value = v;
+    }
+    function mostrarAdvertencia(mensaje) {
+      document.getElementById("mensajeAdvertencia").textContent = mensaje;
+      document.getElementById("modalAdvertencia").style.display = "block";
+    }
+    function cerrarAdvertencia() {
+      document.getElementById("modalAdvertencia").style.display = "none";
+    }
+    
+  // AGREGAR AL CARRITO
+    function agregarProducto() {
+      const cantidad = parseInt(document.getElementById("quantity").value, 10);
+      if (!cantidad || isNaN(cantidad) > producto.stock) {
+        return mostrarAdvertencia("Por favor, selecciona una cantidad válida.");
+      }
+      if (cantidad > producto.stock) {
+        return mostrarAdvertencia(`Solo hay ${producto.stock} unidades disponibles.`);
+      }
+      const colorSeleccionado = document.querySelector("#color-selector .selected")?.title;
+      const nombrecompleto = `${producto.nombre} (${colorSeleccionado})`;
+
+      addToCartStorage({
+        id: producto.id,
+        nombre: nombrecompleto,
+        precio: producto.precio,
+        cantidad,
+        color: colorSeleccionado,
+        imagen: document.getElementById("img").src,
+        stock: producto.stock
+      });
+      document.getElementById("modalAgregado").style.display = "block";
+    }
+    function cerrarModalAgregado() {
+      document.getElementById("modalAgregado").style.display = "none";
+    }
+
+  </script>
+
+  <script src="{{ url_for('static', filename='JS/carrito.js') }}"></script>
+
+
+</body>
+</html>
